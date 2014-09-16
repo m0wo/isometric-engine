@@ -6,15 +6,15 @@ import org.lwjgl.opengl.GL11;
 public class Game {
 	private int width, height;
 	private String title;
-	private int tileWidth;
-	private int tileHeight;
+	
+	private Tile tile;
 
 	public Game(int width, int height, String title) {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		this.tileHeight = 64;
-		this.tileWidth = 64;
+		this.tile = new Tile(64, 64);
+		
 		initDisplay();
 		run();
 	}
@@ -37,15 +37,6 @@ public class Game {
 
 	}
 
-	public void drawBox(int x, int y) {
-		GL11.glBegin(GL11.GL_LINE_LOOP);
-			GL11.glVertex2f(x, y);
-			GL11.glVertex2f(x + tileWidth, y);
-			GL11.glVertex2f(x + tileWidth, y + tileHeight);
-			GL11.glVertex2f(x, y + tileHeight);
-		GL11.glEnd();
-	}
-
 	public void render() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
@@ -54,7 +45,7 @@ public class Game {
 		
 		for(int y = 0; y < 2; y++){
 			for(int x = 0; x < 2; x++){
-				drawBox(x * tileWidth, y * tileHeight);
+				tile.drawTile(x, y);
 			}
 		}
 		Display.update();
