@@ -39,11 +39,6 @@ public class Game {
 		//generateMap();
 		getDelta();
 		lastFPS = getTime();
-			map.shiftRight();
-			map.shiftRight();
-			map.shiftRight();
-			map.shiftRight();
-			map.shiftRight();
 		run();
 	}
 /*

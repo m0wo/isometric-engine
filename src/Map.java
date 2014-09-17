@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Map {
 
@@ -39,11 +40,12 @@ public class Map {
 		//System.out.println(xSize);
 		//System.out.println(ySize);
 		gameMap = new ArrayList<Tile>();
-		genMap();
+		//genMap();
+		randMap();
 	}
 
 	public void genMap() {
-
+		
 		// TODO: load from file the map data
 
 		for (int y = 0; y < ySize; y++) {
@@ -64,6 +66,20 @@ public class Map {
 		 * 64, x, y, "water")); } } }
 		 */
 
+	}
+	
+	
+	public void randMap() {
+		Random rand = new Random();
+		for (int y = -32; y < 32; y++) {
+			for (int x = -32; x < 32; x++) {
+				if (rand.nextInt((10 - 1) + 1) >= 5) {
+					gameMap.add(new Tile(128, 64, x, y, "grass"));
+				} else {
+					gameMap.add(new Tile(128, 64, x, y, "water"));
+				}
+			}
+		}
 	}
 
 	public void drawMap() {
