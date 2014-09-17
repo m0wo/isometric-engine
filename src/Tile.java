@@ -2,40 +2,37 @@ import org.lwjgl.opengl.GL11;
 
 public class Tile {
 
-	private int tileHeight, tileWidth;
+	private int tileWidth, tileHeight;
+	private int halfWidth, halfHeight;
+	private int x, y;
+	private String type;
 
-	public Tile(int width, int height) {
+	public Tile(int width, int height, int x, int y, String type) {
 		this.tileWidth = width;
 		this.tileHeight = height;
+		this.x = x;
+		this.y = y;
+		this.type = type;
 
+		halfWidth = tileWidth / 2;
+		halfHeight = tileHeight / 2;
 	}
 
-	public void drawTile(int x, int y) {
-		int screenX = x * tileWidth;
-		int screenY = y * tileHeight;
-		GL11.glBegin(GL11.GL_LINE_LOOP);
-		GL11.glVertex2f(screenX, screenY);
-		GL11.glVertex2f(screenX + tileWidth, screenY);
-		GL11.glVertex2f(screenX + tileWidth, screenY + tileHeight);
-		GL11.glVertex2f(screenX, screenY + tileHeight);
-		GL11.glEnd();
-	}
+	public void drawTile() {
+		int screenX = (x - y) * halfWidth;
+		int screenY = (x + y) * halfHeight;
 
-	public void drawIso(int x, int y, String type) {
-		int screenX = (x - y) * (tileWidth / 2);
-		int screenY = (x + y) * (tileHeight / 2);
-
-		if (type.equals("grass")){
-			GL11.glColor3f(0.0f, 1.0f, 0.0f);
-		}else if (type.equals("water")){
-			GL11.glColor3f(0.0f, 0.0f, 1.0f);
+		if (type.equals("grass")) {
+			GL11.glColor4f(0.0f, 0.8f, 0.0f, 1.0f);
+		} else if (type.equals("water")) {
+			GL11.glColor4f(0.0f, 0.0f, 1.0f, 0.1f);
 		}
 
 		GL11.glBegin(GL11.GL_POLYGON);
 		GL11.glVertex2f(screenX, screenY);
-		GL11.glVertex2f(screenX + (tileWidth / 2), screenY + (tileHeight / 2));
+		GL11.glVertex2f(screenX + halfWidth, screenY + halfHeight);
 		GL11.glVertex2f(screenX, screenY + tileHeight);
-		GL11.glVertex2f(screenX - (tileWidth / 2), screenY + (tileHeight / 2));
+		GL11.glVertex2f(screenX - halfWidth, screenY + halfHeight);
 		GL11.glEnd();
 	}
 }

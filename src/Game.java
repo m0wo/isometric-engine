@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.LWJGLException;
@@ -9,18 +11,33 @@ public class Game {
 	private int width, height;
 	private String title;
 
-	private Tile tile;
 	private Random rand;
+
+	private List<Tile> map;
 
 	public Game(int width, int height, String title) {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		this.tile = new Tile(128, 64);
+
+		map = new ArrayList<Tile>();
 
 		rand = new Random();
 		initDisplay();
+		generateMap();
 		run();
+	}
+
+	public void generateMap() {
+		for (int y = -32; y < 32; y++) {
+			for (int x = -32; x < 32; x++) {
+				if (rand.nextInt((10 - 1) + 1) >= 5) {
+					map.add(new Tile(128, 64, x, y, "grass"));
+				} else {
+					map.add(new Tile(128, 64, x, y, "water"));
+				}
+			}
+		}
 	}
 
 	public void initDisplay() {
@@ -44,17 +61,10 @@ public class Game {
 	public void render() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-		//GL11.glColor3f(0.5f, 0.5f, 1.0f);
-
-		for (int y = -height; y < height; y++) {
-			for (int x = -width; x < width; x++) {
-				if (rand.nextInt((10 - 1) + 1) >= 5) {
-					tile.drawIso(x, y, "grass");
-				}else{
-					tile.drawIso(x, y, "water");
-				}
-			}
+		for (Tile t : map) {
+			t.drawTile();
 		}
+
 		Display.update();
 	}
 
