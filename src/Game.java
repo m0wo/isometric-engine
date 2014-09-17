@@ -3,6 +3,9 @@ import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -13,21 +16,37 @@ public class Game {
 
 	private Random rand;
 
-	private List<Tile> map;
-
+	//private List<Tile> map;
+	private Map map;
+	
+	private long lastFrame;
+	
+	private int fps;
+	private long lastFPS;
+	private int mouseX, mouseY;
+	private Cursor cursor;
+	
 	public Game(int width, int height, String title) {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-
-		map = new ArrayList<Tile>();
+		cursor = new Cursor();
+		map = new Map();
+		//map = new ArrayList<Tile>();
 
 		rand = new Random();
 		initDisplay();
-		generateMap();
+		//generateMap();
+		getDelta();
+		lastFPS = getTime();
+			map.shiftRight();
+			map.shiftRight();
+			map.shiftRight();
+			map.shiftRight();
+			map.shiftRight();
 		run();
 	}
-
+/*
 	public void generateMap() {
 		for (int y = -32; y < 32; y++) {
 			for (int x = -32; x < 32; x++) {
@@ -39,7 +58,7 @@ public class Game {
 			}
 		}
 	}
-
+*/
 	public void initDisplay() {
 		try {
 			Display.setDisplayMode(new DisplayMode(width, height));
@@ -57,25 +76,61 @@ public class Game {
 		GL11.glOrtho(0, width, height, 0, 1, -1);
 
 	}
+	
+	public int getDelta(){
+		long time = getTime();
+		int delta = (int) (time - lastFrame);
+		lastFrame = time;
+		return delta;
+	}
+	
+	public long getTime(){
+		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+	}
 
 	public void render() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
-		for (Tile t : map) {
-			t.drawTile();
-		}
-
+		
+		map.drawMap();
+		cursor.drawCursor();
 		Display.update();
+		Display.sync(60);
+	}
+	
+	public void updateFPS(){
+		if (getTime() - lastFPS > 1000){
+			Display.setTitle("FPS: " + fps);
+			fps = 0;
+			lastFPS += 1000;
+		}
+		fps++;
 	}
 
-	public void tick() {
-
+	public void tick(int delta) {
+		//timing goes here
+		
+		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
+			map.shiftRight();
+		}else if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
+			map.shiftLeft();
+		}else if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
+			map.shiftUp();
+		}else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+			map.shiftDown();
+		}
+		
+		cursor.updateCursor();
+		cursor.highlightTile(map);
+		updateFPS();
+		
 	}
 
 	public void run() {
 		while (!Display.isCloseRequested()) {
+			int delta = getDelta();
+			tick(delta);
 			render();
-			tick();
+
 		}
 	}
 

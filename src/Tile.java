@@ -4,8 +4,9 @@ public class Tile {
 
 	private int tileWidth, tileHeight;
 	private int halfWidth, halfHeight;
-	private int x, y;
+	public int x, y;
 	private String type;
+	public boolean selected = false;
 
 	public Tile(int width, int height, int x, int y, String type) {
 		this.tileWidth = width;
@@ -26,6 +27,10 @@ public class Tile {
 			GL11.glColor4f(0.0f, 0.8f, 0.0f, 1.0f);
 		} else if (type.equals("water")) {
 			GL11.glColor4f(0.0f, 0.0f, 1.0f, 0.1f);
+		} 
+		
+		if (selected){
+			GL11.glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 		}
 
 		GL11.glBegin(GL11.GL_POLYGON);
