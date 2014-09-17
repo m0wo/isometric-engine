@@ -1,3 +1,5 @@
+import java.util.Random;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -6,15 +8,17 @@ import org.lwjgl.opengl.GL11;
 public class Game {
 	private int width, height;
 	private String title;
-	
+
 	private Tile tile;
+	private Random rand;
 
 	public Game(int width, int height, String title) {
 		this.width = width;
 		this.height = height;
 		this.title = title;
-		this.tile = new Tile(64, 64);
-		
+		this.tile = new Tile(128, 64);
+
+		rand = new Random();
 		initDisplay();
 		run();
 	}
@@ -40,19 +44,22 @@ public class Game {
 	public void render() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-		GL11.glColor3f(0.5f, 0.5f, 1.0f);
-		
-		
-		for(int y = 0; y < 2; y++){
-			for(int x = 0; x < 2; x++){
-				tile.drawTile(x, y);
+		//GL11.glColor3f(0.5f, 0.5f, 1.0f);
+
+		for (int y = -height; y < height; y++) {
+			for (int x = -width; x < width; x++) {
+				if (rand.nextInt((10 - 1) + 1) >= 5) {
+					tile.drawIso(x, y, "grass");
+				}else{
+					tile.drawIso(x, y, "water");
+				}
 			}
 		}
 		Display.update();
 	}
 
 	public void tick() {
-		
+
 	}
 
 	public void run() {
