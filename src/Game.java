@@ -33,7 +33,7 @@ public class Game {
 		this.title = title;
 
 		pointer = new Pointer();
-		map = new Map();
+		
 		// map = new ArrayList<Tile>();
 
 		rand = new Random();
@@ -41,6 +41,7 @@ public class Game {
 		// generateMap();
 		getDelta();
 		lastFPS = getTime();
+		map = new Map();
 		run();
 	}
 
@@ -58,16 +59,26 @@ public class Game {
 			Display.setDisplayMode(new DisplayMode(width, height));
 			Display.setTitle(title);
 			Display.create();
+			Display.setVSyncEnabled(true);
 
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST );
+		GL11.glTexParameterf( GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST ); 
+		GL11.glClearColor(0.4f, 0.4f, 1.0f, 1.0f);
+
+		GL11.glViewport(0, 0, width, height);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 
 		GL11.glOrtho(0, width, height, 0, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
 	}
 
@@ -85,8 +96,9 @@ public class Game {
 	public void render() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-		map.drawMap();
+		//map.drawMap();
 		// pointer.drawCursor();
+		map.drawTexMap();
 		Display.update();
 		Display.sync(60);
 	}
@@ -103,6 +115,21 @@ public class Game {
 	public void tick(int delta) {
 		// timing goes here
 
+		while (Keyboard.next()) {
+			if (Keyboard.getEventKey() == Keyboard.KEY_MINUS) {
+				if (Keyboard.getEventKeyState()) {
+
+				} else {
+					map.zoomOut();
+				}
+			} else if (Keyboard.getEventKey() == Keyboard.KEY_EQUALS) {
+				if (Keyboard.getEventKeyState()) {
+
+				} else {
+					map.zoomIn();
+				}
+			}
+		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
 			map.shiftRight();
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
@@ -111,10 +138,6 @@ public class Game {
 			map.shiftUp();
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
 			map.shiftDown();
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_EQUALS)) {
-			map.zoomIn();
-		} else if (Keyboard.isKeyDown(Keyboard.KEY_MINUS)) {
-			map.zoomOut();
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 			Display.destroy();
 		}

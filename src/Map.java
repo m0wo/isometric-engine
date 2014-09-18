@@ -40,8 +40,8 @@ public class Map {
 		// System.out.println(xSize);
 		// System.out.println(ySize);
 		gameMap = new ArrayList<Tile>();
-		// genMap();
-		randMap();
+		genMap();
+		//randMap();
 	}
 
 	public void genMap() {
@@ -84,6 +84,12 @@ public class Map {
 	public void drawMap() {
 		for (Tile t : gameMap) {
 			t.drawTile();
+		}
+	}
+	
+	public void drawTexMap(){
+		for (Tile t : gameMap){
+			t.drawTexTile();
 		}
 	}
 
