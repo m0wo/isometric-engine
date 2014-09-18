@@ -86,8 +86,8 @@ public class Game {
 	public void render() {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
-		map.drawSqMap();
-		cursor.drawSqCursor();
+		map.drawMap();
+		cursor.drawCursor();
 		Display.update();
 		Display.sync(60);
 	}
@@ -115,7 +115,7 @@ public class Game {
 		}
 		
 		cursor.updateCursor();
-		cursor.highlightSqTile(map);
+		cursor.highlightTile(map);
 		updateFPS();
 		
 	}

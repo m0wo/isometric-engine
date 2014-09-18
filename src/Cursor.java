@@ -45,8 +45,11 @@ public class Cursor {
 	//HIGHLIGHT
 	
 	public void highlightTile(Map map){
-		tileX = (mouseX / 32 + mouseY / 64) / 2;
-		tileY = (mouseY / 64 - (mouseX / 32)) / 2;
+		tileX = (mouseX / 64 + mouseY / 32) / 2;
+		tileY = (mouseY / 32 - (mouseX / 64)) / 2;
+		
+		//tileX = mouseX / 128;
+		//tileY = mouseY / 64;
 		
 		for (Tile t : map.gameMap){
 			if ((t.x == tileX) && (t.y == tileY)){
@@ -59,8 +62,8 @@ public class Cursor {
 	}
 	
 	public void highlightSqTile(Map map){
-		int tileX = mouseX / 128;
-		int tileY = mouseY / 64;
+		tileX = mouseX / 128;
+		tileY = mouseY / 64;
 		
 		for (Tile t : map.gameMap){
 			if ((t.x == tileX) && (t.y == tileY)){
