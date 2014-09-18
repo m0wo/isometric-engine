@@ -25,6 +25,16 @@ public class Cursor {
 		GL11.glEnd();
 	}
 	
+	public void drawSqCursor(){
+		GL11.glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+		GL11.glBegin(GL11.GL_LINE_LOOP);
+		GL11.glVertex2f(mouseX, mouseY);
+		GL11.glVertex2f(mouseX + 128, mouseY);
+		GL11.glVertex2f(mouseX + 128 , mouseY + 64);
+		GL11.glVertex2f(mouseX , mouseY + 64);
+		GL11.glEnd();
+	}
+	
 	public void getSelected(){
 		
 	}
@@ -44,8 +54,25 @@ public class Cursor {
 				t.selected = true;
 			}
 		}
-		
+		System.out.println("Mouse x: " + mouseX + " Mouse y: " + mouseY);
 		System.out.println("x: " + tileX + " y: " + tileY);
 	}
+	
+	public void highlightSqTile(Map map){
+		int tileX = mouseX / 128;
+		int tileY = mouseY / 64;
+		
+		for (Tile t : map.gameMap){
+			if ((t.x == tileX) && (t.y == tileY)){
+				
+				t.selected = true;
+			}
+		}
+		
+		System.out.println("Mouse x: " + mouseX + " Mouse y: " + mouseY);
+		System.out.println("x: " + tileX + " y: " + tileY);
+	}
+	
+	
 	
 }

@@ -87,28 +87,35 @@ public class Map {
 			t.drawTile();
 		}
 	}
-
-	public void shiftRight() {
-		for (Tile t : gameMap) {
-			t.x++;
+	
+	
+	public void drawSqMap(){
+		for (Tile t : gameMap){
+			t.drawSqTile();
 		}
 	}
 
-	public void shiftLeft() {
+	public void shiftRight() {
 		for (Tile t : gameMap) {
 			t.x--;
 		}
 	}
 
+	public void shiftLeft() {
+		for (Tile t : gameMap) {
+			t.x++;
+		}
+	}
+
 	public void shiftUp() {
 		for (Tile t : gameMap) {
-			t.y--;
+			t.y++;
 		}
 	}
 
 	public void shiftDown() {
 		for (Tile t : gameMap) {
-			t.y++;
+			t.y--;
 		}
 	}
 
