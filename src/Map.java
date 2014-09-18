@@ -11,22 +11,25 @@ public class Map {
 	private int[][] testMap;
 	public ArrayList<Tile> gameMap;
 
+	public ArrayList<Tile> baseTiles;
+	public Spritesheet spriteSheet;
+
 	public Map() {
 
 		testMap = new int[][] {
 				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 				{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 				{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
@@ -39,9 +42,12 @@ public class Map {
 
 		// System.out.println(xSize);
 		// System.out.println(ySize);
+
+		baseTiles = new ArrayList<Tile>();
+		spriteSheet = new Spritesheet();
 		gameMap = new ArrayList<Tile>();
-		genMap();
-		//randMap();
+		//genMap();
+		randMap();
 	}
 
 	public void genMap() {
@@ -53,19 +59,11 @@ public class Map {
 			for (int x = 0; x < xSize; x++) {
 
 				if (testMap[y][x] == 1)
-					gameMap.add(new Tile(64, 32, x, y, "grass"));
+					gameMap.add(new Tile(64, 32, x, y, "grass", spriteSheet));
 				if (testMap[y][x] == 0)
-					gameMap.add(new Tile(64, 32, x, y, "water"));
+					gameMap.add(new Tile(64, 32, x, y, "water", spriteSheet));
 			}
 		}
-
-		/*
-		 * for (int y = 0; y < size; y++){ for (int x = 0; x < size; x++){
-		 * if(testMap[x][y] == 1){ gameMap.add(new Tile(128, 64, x, y,
-		 * "grass")); }else if(testMap[x][y] == 0){ gameMap.add(new Tile(128,
-		 * 64, x, y, "water")); } } }
-		 */
-
 	}
 
 	public void randMap() {
@@ -73,9 +71,9 @@ public class Map {
 		for (int y = -64; y < 64; y++) {
 			for (int x = -64; x < 64; x++) {
 				if (rand.nextInt((10 - 1) + 1) >= 5) {
-					gameMap.add(new Tile(64, 32, x, y, "grass"));
+					gameMap.add(new Tile(64, 32, x, y, "grass", spriteSheet));
 				} else {
-					gameMap.add(new Tile(64, 32, x, y, "water"));
+					gameMap.add(new Tile(64, 32, x, y, "water", spriteSheet));
 				}
 			}
 		}
@@ -84,12 +82,33 @@ public class Map {
 	public void drawMap() {
 		for (Tile t : gameMap) {
 			t.drawTile();
+
+		}
+	}
+
+
+	public void drawCamMap(Camera cam) {
+		for (Tile t : gameMap) {
+			if (((t.getWorldX() >= cam.x - 100) && (t.getWorldY() >= cam.y - 100))
+					&& ((t.getWorldX() <= cam.x +  (cam.size + 100)) && (t.getWorldY() <= cam.y
+							+ (cam.size + 100)))) {
+				t.drawTexTile();
+				
+				if (t.selected){
+					System.out.println(t.getWorldX() + " " + t.getWorldY());
+				}
+			}
+			
 		}
 	}
 	
-	public void drawTexMap(){
-		for (Tile t : gameMap){
+	
+
+	public void drawTexMap() {
+		for (Tile t : gameMap) {
 			t.drawTexTile();
+			// System.out.println(t.x + " " + " " + t.y);
+
 		}
 	}
 

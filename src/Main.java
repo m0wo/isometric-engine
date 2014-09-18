@@ -7,8 +7,9 @@ public class Main {
 	}
 
 }
-
+//TODO: HEIGHT STUFF
 // TODO: CAMERA
-// TODO: HEIGHT STUFF
 // TODO: CENTRE MAP
 // TODO: CLEAN UP CODE
+
+//optimized texture loading

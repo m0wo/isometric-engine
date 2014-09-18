@@ -22,12 +22,6 @@ public class Pointer {
 		GL11.glVertex2f(mouseX + 32, mouseY + 16);
 		GL11.glVertex2f(mouseX, mouseY + 64);
 		GL11.glVertex2f(mouseX - 32, mouseY + 16);
-
-		/*
-		 * GL11.glVertex2f(mouseX, mouseY - 16); GL11.glVertex2f(mouseX + 64,
-		 * mouseY + 16); GL11.glVertex2f(mouseX, mouseY + 48);
-		 * GL11.glVertex2f(mouseX - 64, mouseY + 16);
-		 */
 		GL11.glEnd();
 	}
 
@@ -39,10 +33,6 @@ public class Pointer {
 		GL11.glVertex2f(mouseX + 128, mouseY + 64);
 		GL11.glVertex2f(mouseX, mouseY + 64);
 		GL11.glEnd();
-	}
-
-	public void getSelected() {
-
 	}
 
 	public void highlightTile(Map map) {
@@ -57,8 +47,6 @@ public class Pointer {
 				t.selected = true;
 			}
 		}
-		// System.out.println("Mouse x: " + mouseX + " Mouse y: " + mouseY);
-		// System.out.println("x: " + tileX + " y: " + tileY);
 	}
 
 	public void highlightSqTile(Map map) {
@@ -72,9 +60,6 @@ public class Pointer {
 			}
 
 		}
-
-		System.out.println("Mouse x: " + mouseX + " Mouse y: " + mouseY);
-		System.out.println("x: " + tileX + " y: " + tileY);
 	}
 
 }

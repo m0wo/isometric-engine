@@ -26,6 +26,8 @@ public class Game {
 	private long lastFPS;
 	private int mouseX, mouseY;
 	private Pointer pointer;
+	
+	private Camera cam;
 
 	public Game(int width, int height, String title) {
 		this.width = width;
@@ -37,6 +39,7 @@ public class Game {
 		// map = new ArrayList<Tile>();
 
 		rand = new Random();
+		cam = new Camera();
 		initDisplay();
 		// generateMap();
 		getDelta();
@@ -45,12 +48,6 @@ public class Game {
 		run();
 	}
 
-	/*
-	 * public void generateMap() { for (int y = -32; y < 32; y++) { for (int x =
-	 * -32; x < 32; x++) { if (rand.nextInt((10 - 1) + 1) >= 5) { map.add(new
-	 * Tile(128, 64, x, y, "grass")); } else { map.add(new Tile(128, 64, x, y,
-	 * "water")); } } } }
-	 */
 	public void initDisplay() {
 
 		Mouse.setGrabbed(true);
@@ -98,7 +95,8 @@ public class Game {
 
 		//map.drawMap();
 		// pointer.drawCursor();
-		map.drawTexMap();
+		//map.drawTexMap();
+		map.drawCamMap(cam);
 		Display.update();
 		Display.sync(60);
 	}
@@ -131,17 +129,21 @@ public class Game {
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+			//cam.x++;
 			map.shiftRight();
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
+			//cam.x++;
 			map.shiftLeft();
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+			//cam.y++;
 			map.shiftUp();
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+			//cam.y++;
 			map.shiftDown();
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 			Display.destroy();
 		}
-
+		
 		pointer.updateCursor();
 		pointer.highlightTile(map);
 		updateFPS();
