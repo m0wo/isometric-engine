@@ -1,5 +1,4 @@
 public class Main {
-		
 
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
@@ -8,3 +7,7 @@ public class Main {
 	}
 
 }
+// TODO: DO AWAY WITH ALL YO MAGIC NUMBERS AND STUFF
+// TODO: HEIGHT STUFF
+// TODO: CENTRE MAP
+// TODO: SWITCH TO MODERN OPENGL

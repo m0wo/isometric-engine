@@ -37,15 +37,15 @@ public class Map {
 		ySize = testMap.length;
 		xSize = testMap[0].length;
 
-		//System.out.println(xSize);
-		//System.out.println(ySize);
+		// System.out.println(xSize);
+		// System.out.println(ySize);
 		gameMap = new ArrayList<Tile>();
-		//genMap();
+		// genMap();
 		randMap();
 	}
 
 	public void genMap() {
-		
+
 		// TODO: load from file the map data
 
 		for (int y = 0; y < ySize; y++) {
@@ -53,9 +53,9 @@ public class Map {
 			for (int x = 0; x < xSize; x++) {
 
 				if (testMap[y][x] == 1)
-					gameMap.add(new Tile(128, 64, x, y, "grass"));
+					gameMap.add(new Tile(64, 32, x, y, "grass"));
 				if (testMap[y][x] == 0)
-					gameMap.add(new Tile(128, 64, x, y, "water"));
+					gameMap.add(new Tile(64, 32, x, y, "water"));
 			}
 		}
 
@@ -67,16 +67,15 @@ public class Map {
 		 */
 
 	}
-	
-	
+
 	public void randMap() {
 		Random rand = new Random();
-		for (int y = -32; y < 32; y++) {
-			for (int x = -32; x < 32; x++) {
+		for (int y = -64; y < 64; y++) {
+			for (int x = -64; x < 64; x++) {
 				if (rand.nextInt((10 - 1) + 1) >= 5) {
-					gameMap.add(new Tile(128, 64, x, y, "grass"));
+					gameMap.add(new Tile(64, 32, x, y, "grass"));
 				} else {
-					gameMap.add(new Tile(128, 64, x, y, "water"));
+					gameMap.add(new Tile(64, 32, x, y, "water"));
 				}
 			}
 		}
@@ -87,10 +86,26 @@ public class Map {
 			t.drawTile();
 		}
 	}
-	
-	
-	public void drawSqMap(){
-		for (Tile t : gameMap){
+
+	public void zoomIn() {
+		for (Tile t : gameMap) {
+			t.tileWidth = t.tileWidth * 2;
+			t.tileHeight = t.tileHeight * 2;
+			System.out.println("Current tile res: " + t.tileWidth + "*"
+					+ t.tileHeight);
+		}
+
+	}
+
+	public void zoomOut() {
+		for (Tile t : gameMap) {
+			t.tileWidth = t.tileWidth / 2;
+			t.tileHeight = t.tileHeight / 2;
+		}
+	}
+
+	public void drawSqMap() {
+		for (Tile t : gameMap) {
 			t.drawSqTile();
 		}
 	}
