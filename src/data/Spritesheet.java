@@ -1,3 +1,4 @@
+package data;
 import java.io.IOException;
 
 import org.newdawn.slick.Color;
